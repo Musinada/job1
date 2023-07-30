@@ -1,5 +1,5 @@
 variable "ubuntu_ami_id" {
-    description = "ami id of the linux machine"
+    description = "ami id of the ubuntu machine"
     default = "ami-0f5ee92e2d63afc18"
 }
 variable "vpc_id" {
