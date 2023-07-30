@@ -12,7 +12,7 @@ provider "aws" {
 
 # aws_instance
 
-resource "aws_instance" "controller_linux" {
+resource "aws_instance" "controller_ubuntu" {
   ami                         = var.ubuntu_ami_id
   instance_type               = "t2.micro"
   associate_public_ip_address = true
@@ -29,9 +29,9 @@ resource "aws_instance" "controller_linux" {
   }
 }
 
-output "instance_ip_linux_controller" {
-  description = "The public ip for ssh access to linux controller"
-  value       = aws_instance.controller_linux.public_ip
+output "instance_ip_ubuntu_controller" {
+  description = "The public ip for ssh access to ubuntu controller"
+  value       = aws_instance.controller_ubuntu.public_ip
 }
 
 
@@ -64,7 +64,7 @@ output "securitygroup_id" {
 
 resource "aws_network_interface_sg_attachment" "controller_sg_attachment" {
   security_group_id    = aws_security_group.anilSG1.id
-  network_interface_id = aws_instance.controller_linux.primary_network_interface_id
+  network_interface_id = aws_instance.controller_ubuntu.primary_network_interface_id
 }
 
 
