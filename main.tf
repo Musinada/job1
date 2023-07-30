@@ -1,3 +1,10 @@
+terraform {
+    backend "s3" {
+    bucket = "test-infraauto"
+    key    = "terraform_Iac.tfstate"
+    region = "ap-south-1"
+  }
+}
 
 terraform {
   required_version = ">= 0.12"
