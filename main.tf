@@ -13,7 +13,7 @@ provider "aws" {
 # aws_instance
 
 resource "aws_instance" "controller_linux" {
-  ami                         = var.ubuntu_ami_id_ami_id
+  ami                         = var.ubuntu_ami_id
   instance_type               = "t2.micro"
   associate_public_ip_address = true
   subnet_id                   = var.subnet
