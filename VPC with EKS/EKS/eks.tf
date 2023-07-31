@@ -60,7 +60,7 @@ POLICY
 
 resource "aws_iam_policy" "autoscaler" {
   name   = "ed-eks-autoscaler-policy"
-  policy = <<EOF                                          # EOF - eks node scaling lag with pod priority and over-provisioning
+  policy =                                         
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -79,7 +79,6 @@ resource "aws_iam_policy" "autoscaler" {
     }
   ]
 }
-EOF
 
 }
 
