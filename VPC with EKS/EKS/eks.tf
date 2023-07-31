@@ -60,7 +60,7 @@ POLICY
 
 resource "aws_iam_policy" "autoscaler" {
   name   = "ed-eks-autoscaler-policy"
-  policy =                                         
+  assume_policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -79,7 +79,7 @@ resource "aws_iam_policy" "autoscaler" {
     }
   ]
 }
-
+POLICY
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
@@ -102,15 +102,6 @@ resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly" {
   role       = aws_iam_role.worker.name
 }
 
-resource "aws_iam_role_policy_attachment" "x-ray" {
-  policy_arn = "arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess"
-  role       = aws_iam_role.worker.name
-}
-resource "aws_iam_role_policy_attachment" "s3" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
-  role       = aws_iam_role.worker.name
-}
-
 resource "aws_iam_role_policy_attachment" "autoscaler" {
   policy_arn = aws_iam_policy.autoscaler.arn
   role       = aws_iam_role.worker.name
@@ -118,12 +109,12 @@ resource "aws_iam_role_policy_attachment" "autoscaler" {
 
 resource "aws_iam_instance_profile" "worker" {
   depends_on = [aws_iam_role.worker]
-  name       = "ed-eks-worker-new-profile"
+  name       = "ed-eks-worker"
   role       = aws_iam_role.worker.name
 }
 
 ###############################################################################################################
-# eks-cluster
+# cluster
 
 resource "aws_eks_cluster" "eks" {
   name = "ed-eks-01"
