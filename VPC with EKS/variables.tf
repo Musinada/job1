@@ -23,5 +23,5 @@ variable "subnet1-cidr" {
   
 }
 variable "subnet_az" {
-    default =  "ap-south-1a"  
+    default =  "ap-south-1"  
 }
