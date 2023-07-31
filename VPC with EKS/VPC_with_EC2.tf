@@ -20,7 +20,7 @@ resource "aws_vpc" "demo-vpc" {
 resource "aws_subnet" "demo_subnet" {
   vpc_id     = aws_vpc.demo-vpc.id 
   cidr_block = var.subnet1-cidr
-  availability_zone = var.subent_az
+  availability_zone = ap-south-1a
 
   tags = {
     Name = "demo_subnet"
