@@ -33,3 +33,6 @@ variable "subnet_az" {
 }
 
 
+variable "subnet_az-2" {
+    default =  "ap-south-1b"  
+}
