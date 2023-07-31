@@ -7,8 +7,8 @@ resource "aws_instance" "demo-server" {
  key_name = var.key 
  instance_type  = var.instance-type
  associate_public_ip_address = true
-subnet_id = aws_subnet.demo_subnet-1.id
-vpc_security_group_ids = [aws_security_group.demo-vpc-sg.id]
+ subnet_id = aws_subnet.demo_subnet-1.id
+ vpc_security_group_ids = [aws_security_group.demo-vpc-sg.id]
 }
 
 // Create VPC
@@ -21,6 +21,7 @@ resource "aws_subnet" "demo_subnet-1" {
   vpc_id     = aws_vpc.demo-vpc.id 
   cidr_block = var.subnet1-cidr
   availability_zone = var.subnet_az
+  map_public_ip_on_launch = "true"
 
   tags = {
     Name = "demo_subnet-1"
@@ -31,6 +32,7 @@ resource "aws_subnet" "demo_subnet-2" {
   vpc_id     = aws_vpc.demo-vpc.id 
   cidr_block = var.subnet2-cidr
   availability_zone = var.subnet_az
+  map_public_ip_on_launch = "true"
 
   tags = {
     Name = "demo_subnet-2"
