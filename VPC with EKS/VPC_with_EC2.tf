@@ -104,6 +104,28 @@ resource "aws_security_group" "demo-vpc-sg" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
+# prometheus server
+  ingress {
+    description = "Allow traffic to Prometheus server (port 9090 by default)"
+    from_port        = 9090
+    to_port          = 9090
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+# grafana server
+
+  ingress {
+    description = "Allow traffic to Grafana (port 3000 by default)"
+    from_port        = 3000
+    to_port          = 3000
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+
   egress {
     from_port        = 0
     to_port          = 0
@@ -118,7 +140,7 @@ resource "aws_security_group" "demo-vpc-sg" {
 }
 
 
-// Modules for EKS cluster and Security Group
+// Modules for EKS cluster - Security Group
 
 module "sgs" {
   source = "./SG_EKS"
