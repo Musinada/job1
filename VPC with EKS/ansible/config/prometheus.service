@@ -1,0 +1,6 @@
+[Unit]
+Description=Prometheus Server
+          
+[Service]
+Type=simple
+ExecStart=/home/{{ ansible_user }}/prometheus-{{ prometheus_version }}.linux-amd64/prometheus --config.file=/home/{{ ansible_user }}/prometheus-{{ prometheus_version }}.linux-amd64/prometheus.yml
