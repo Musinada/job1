@@ -118,7 +118,7 @@ resource "aws_security_group" "demo-vpc-sg" {
 }
 
 
-// Modules for EKS cluster
+// Modules for EKS cluster and Security Group
 
 module "sgs" {
   source = "./SG_EKS"
