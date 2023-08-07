@@ -6,103 +6,23 @@ EC2 :
 steps to do;
 1. ec2 machine
 
-provider "aws" {
-  region = var.location
-}
-
-resource "aws_instance" "demo-server" {
- ami = var.os_name
- key_name = var.key 
- instance_type  = var.instance-type
- associate_public_ip_address = true
-subnet_id = aws_subnet.demo_subnet.id
-vpc_security_group_ids = [aws_security_group.demo-vpc-sg.id]
-}
-
-
 2. vpc creation
-
-resource "aws_vpc" "demo-vpc" {
-  cidr_block = var.vpc-cidr
-}
 
 
 3. create a subnet
 
-resource "aws_subnet" "demo_subnet" {
-  vpc_id     = aws_vpc.demo-vpc.id 
-  cidr_block = var.subnet1-cidr
-  availability_zone = var.subent_az
-
-  tags = {
-    Name = "demo_subnet"
-  }
-}
 
 4. create a igw.
 
-resource "aws_internet_gateway" "demo-igw" {
-  vpc_id = aws_vpc.demo-vpc.id
-
-  tags = {
-    Name = "demo-igw"
-  }
-}
-
 5. create a route table
-
-resource "aws_route_table" "demo-rt" {
-  vpc_id = aws_vpc.demo-vpc.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.demo-igw.id
-  }
-  tags = {
-    Name = "demo-rt"
-  }
-}
 
 
 6. in route table keep the gateway_id with igw (created)
 7. association of subnet with route table
 
-resource "aws_route_table_association" "demo-rt_association" {
-  subnet_id      = aws_subnet.demo_subnet.id 
-
-  route_table_id = aws_route_table.demo-rt.id
-}
-
-
+r
 
 8. security group for linux machine - ingress and egress tcp : porting
-
-resource "aws_security_group" "demo-vpc-sg" {
-  name        = "demo-vpc-sg"
- 
-  vpc_id      = aws_vpc.demo-vpc.id
-
-  ingress {
-
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-  }
-
-  tags = {
-    Name = "allow_tls"
-  }
-}
 
 
 9. variables for all needed resources
@@ -156,26 +76,9 @@ EKS Cluster:
 steps to do;
 1. iam role for "masternode", here service="eks.amazonaws.com"
 
-resource "aws_iam_role" "master" {
-  name = "ed-eks-master"
-
-  assume_role_policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "eks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-POLICY
-}
 
 2. attach the policies for 'master'.
+
    such as AmazonEKSClusterPolicy, AmazonEKSServicePolicy, AmazonEKSVPCResourceController.
 
 
