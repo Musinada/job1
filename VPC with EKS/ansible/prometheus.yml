@@ -1,0 +1,27 @@
+- stat: 
+    path: "~/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz" 
+  register: "prometheus_binary"
+- get_url: 
+    url: "https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+    dest: "~"
+  when: not prometheus_binary.stat.exists
+- stat: 
+    path: "~/prometheus-{{ prometheus_version }}.linux-amd64" 
+  register: "prometheus_dir"
+- unarchive:
+    src: "~/prometheus-{{ prometheus_version }}.linux-amd64.tar.gz"
+    remote_src: true
+    dest: "~"
+  when: not prometheus_dir.stat.exists
+- copy:
+    src: config/prometheus.yml
+    dest: "~/prometheus-{{ prometheus_version }}.linux-amd64/prometheus.yml"
+- template:
+    src: config/prometheus.service
+    dest: "/usr/lib/systemd/system/prometheus.service"
+    mode: "644"
+  become: true
+- systemd:
+    name: prometheus
+    state: started
+  become: true

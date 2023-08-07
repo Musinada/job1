@@ -1,0 +1,18 @@
+---
+- hosts: all
+  gather_facts: false
+  vars: 
+    prometheus_version: "2.45.0"
+    grafana_version: "10.0.3-1"
+  tasks:
+    - name: Wait for SSH port to be open
+      wait_for:
+        host: "{{ ansible_host }}"
+        port: 22
+        delay: 15
+        timeout: 300
+    - include_tasks: prometheus.yml
+    - include_tasks: grafana.yml
+    - systemd:
+        daemon_reexec: true
+      become: true
