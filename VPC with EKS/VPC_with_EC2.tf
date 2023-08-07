@@ -1,6 +1,11 @@
+// Providers
+
 provider "aws" {
   region = var.location
 }
+
+
+// Client Server - EC2 machine
 
 resource "aws_instance" "demo-server" {
  ami = var.os_name
@@ -11,12 +16,15 @@ resource "aws_instance" "demo-server" {
  vpc_security_group_ids = [aws_security_group.demo-vpc-sg.id]
 }
 
+
 // Create VPC
 resource "aws_vpc" "demo-vpc" {
   cidr_block = var.vpc-cidr
 }
 
+
 // Create Subnet
+
 resource "aws_subnet" "demo_subnet-1" {
   vpc_id     = aws_vpc.demo-vpc.id 
   cidr_block = var.subnet1-cidr
@@ -31,15 +39,13 @@ resource "aws_subnet" "demo_subnet-1" {
 resource "aws_subnet" "demo_subnet-2" {
   vpc_id     = aws_vpc.demo-vpc.id 
   cidr_block = var.subnet2-cidr
-  availability_zone = var.subnet_az
+  availability_zone = var.subnet_az-2
   map_public_ip_on_launch = "true"
 
   tags = {
     Name = "demo_subnet-2"
   }
 }
-
-
 
 
 // Create Internet Gateway
@@ -51,6 +57,9 @@ resource "aws_internet_gateway" "demo-igw" {
     Name = "demo-igw"
   }
 }
+
+
+// Routetable
 
 resource "aws_route_table" "demo-rt" {
   vpc_id = aws_vpc.demo-vpc.id
@@ -64,7 +73,9 @@ resource "aws_route_table" "demo-rt" {
   }
 }
 
+
 // associate subnet1 with route table 
+
 resource "aws_route_table_association" "demo-rt_association-1" {
   subnet_id      = aws_subnet.demo_subnet-1.id 
   route_table_id = aws_route_table.demo-rt.id
@@ -77,8 +88,7 @@ resource "aws_route_table_association" "demo-rt_association-2" {
 }
 
 
-
-// create a security group 
+//Create a Security Group 
 
 resource "aws_security_group" "demo-vpc-sg" {
   name        = "demo-vpc-sg"
@@ -107,6 +117,8 @@ resource "aws_security_group" "demo-vpc-sg" {
   }
 }
 
+
+// Modules for EKS cluster
 
 module "sgs" {
   source = "./SG_EKS"
