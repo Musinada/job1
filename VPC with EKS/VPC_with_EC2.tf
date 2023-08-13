@@ -16,7 +16,7 @@ resource "aws_instance" "demo-server" {
  vpc_security_group_ids = [aws_security_group.demo-vpc-sg.id]
 
  tag = {
-   Name = "client" 
+   Name = "demo-server" 
  }
 }
 
