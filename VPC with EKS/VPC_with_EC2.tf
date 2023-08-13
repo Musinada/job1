@@ -14,10 +14,6 @@ resource "aws_instance" "demo-server" {
  associate_public_ip_address = true
  subnet_id = aws_subnet.demo_subnet-1.id
  vpc_security_group_ids = [aws_security_group.demo-vpc-sg.id]
-
- tag = {
-   Name = "demo-server" 
- }
 }
 
 
