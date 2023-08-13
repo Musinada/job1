@@ -1,3 +1,17 @@
+
+terraform {
+    backend "s3" {
+    bucket = "musibkt1"
+    key    = "terraform_Iac.tfstate"
+    region = "ap-south-1"
+  }
+}
+
+terraform {
+  required_version = ">= 0.12"
+}
+
+
 // Providers
 
 provider "aws" {
