@@ -11,7 +11,7 @@ variable "key" {
 }
 
 variable "instance-type" {
-    default = "t2.small"
+    default = "t2.large"
 }
 
 variable "vpc-cidr" {
