@@ -25,7 +25,6 @@ resource "aws_instance" "demo-server" {
  subnet_id = aws_subnet.demo_subnet-1.id
  vpc_security_group_ids = [aws_security_group.demo-vpc-sg.id]
  root_block_device {
-    volume_type           = var.volume_type
     volume_size           = 60
     delete_on_termination = true
     encrypted = true
